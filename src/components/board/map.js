@@ -2,21 +2,22 @@ import React, { Component } from "react";
 import "./map.css";
 
 class Board extends Component {
-  render() {
-    console.log(this.props.gameMap);
+  generateDOM = () => {
+    return this.props.mapInfo.map((rows, i) => {
+      var row = rows.map((cell, j) => (
+        <td key={j} className={cell}>
+          {cell}
+        </td>
+      ));
+      return <tr key={i}>{row}</tr>;
+    });
+  };
 
+  render() {
     return (
-      <div className="map">
-        {this.props.gameMap.map((row, index) => {
-          <div key={index} row={index} className="row">
-            {row.map((cell, i) => {
-              <div key={i} cell={i} className="cell">
-                {cell}
-              </div>;
-            })}
-          </div>;
-        })}
-      </div>
+      <table className="map">
+        <tbody>{this.generateDOM()}</tbody>
+      </table>
     );
   }
 }
