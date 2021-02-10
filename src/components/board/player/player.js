@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Player extends Component {
-    state = {  }
-    render() { 
-        return (  );
-    }
+  render() {
+    return <div className="player">🚜</div>;
+  }
 }
- 
+
 export default Player;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Map from "./components/board/map";
-import Stats from "./components/stats/stats";
+import Cockpit from "./components/cockpit/cockpit";
 
 class App extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class App extends Component {
       }
     }
     //set up base
-    const baseCoords = this.setBaseLoc(grid.length);
+    const baseCoords = this.setBaseLoc(size);
     tempGrid[baseCoords[1]][baseCoords[0]] = "base";
     this.state.board.gameMap = tempGrid;
   }
@@ -65,18 +65,38 @@ class App extends Component {
       y = Math.round(Math.random());
       if (y === 1) y = size - 1;
     }
+    this.state.player.currLoc = {
+      x: x,
+      y: y,
+    };
     return [x, y];
   }
 
+  initNewGame() {
+    //create gameMap
+    this.createGrid(this.state.board.gameMap, this.state.board.mapSize);
+    //place player at base
+    console.log(this.state.player.currLoc);
+  }
+
+  // move: function (destination = [this.baseLoc.x, this.baseLoc.y]) {
+  //   let prevLoc = document.querySelector(".bot");
+  //   if (prevLoc) prevLoc.parentNode.removeChild(prevLoc);
+  //   let loc = boardEl.rows[destination[1]].cells[destination[0]];
+  //   loc.insertAdjacentHTML("beforeend", `<div class='bot'><div>`);
+  // },
+
   render() {
     if (this.state.board.gameMap.length === 0) {
-      this.createGrid(this.state.board.gameMap, this.state.board.mapSize);
+      this.initNewGame();
     }
     return (
       <div className="App">
         <h1>Miner Bot</h1>
-        <Map mapInfo={this.state.board.gameMap} />
-        <Stats player={this.state.player} />
+        <div className="container">
+          <Map mapInfo={this.state.board.gameMap} />
+          <Cockpit player={this.state.player} />
+        </div>
       </div>
     );
   }

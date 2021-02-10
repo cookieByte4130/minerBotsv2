@@ -1,9 +1,13 @@
 .map {
-  width: 80vw;
-  margin: 0 auto;
   color: transparent;
   line-height: 2rem;
 }
+
+.map td {
+  height: 40px;
+  width: 40px;
+}
+
 .base,
 .water,
 .cliff {

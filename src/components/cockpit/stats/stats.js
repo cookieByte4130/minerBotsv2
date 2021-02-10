@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Stat from "./Stat/stat";
+import "./stats.css";
 
 class Stats extends Component {
   render() {
     return (
-      <div>
-        <h4>Stats</h4>
+      <div className="stats">
         <div>
           Currency: <span>{this.props.player.currency}</span>&copy;
         </div>

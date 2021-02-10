@@ -4,7 +4,7 @@ class Stat extends Component {
   render() {
     return (
       <div>
-        <p>Carry</p>
+        Carry
         <div>
           Level: <span>{this.props.statInfo.level}</span>
         </div>
