@@ -1,9 +1,14 @@
 .map {
-  color: transparent;
   line-height: 2rem;
+  position: relative;
+  z-index: 50;
 }
 
-.map td {
+.row {
+  display: flex;
+}
+
+.row div {
   height: 40px;
   width: 40px;
 }

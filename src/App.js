@@ -28,18 +28,28 @@ class App extends Component {
     };
   }
 
-  createGrid(grid, size) {
-    let tempGrid = [];
+  createGrid(size) {
+    console.log("creating grid");
+    let tempGrid = { ...this.state.board };
     for (let i = 0; i < size; i++) {
-      tempGrid.push([]);
+      tempGrid.gameMap.push([]);
       for (let j = 0; j < size; j++) {
-        tempGrid[i][j] = this.setCellType(25, 20);
+        tempGrid.gameMap[i][j] = this.setCellType(25, 20);
       }
     }
     //set up base
     const baseCoords = this.setBaseLoc(size);
-    tempGrid[baseCoords[1]][baseCoords[0]] = "base";
-    this.state.board.gameMap = tempGrid;
+    console.log("base site selected");
+    tempGrid.gameMap[baseCoords[1]][baseCoords[0]] = "base";
+    this.setState({ tempGrid });
+    console.log("base constructed");
+
+    //place player
+    const currLoc = { ...this.state.player.currLoc };
+    currLoc.x = baseCoords[0];
+    currLoc.y = baseCoords[1];
+    console.log(currLoc);
+    this.setState({ currLoc });
   }
 
   roll(dSides) {
@@ -57,6 +67,7 @@ class App extends Component {
   }
 
   setBaseLoc(size) {
+    console.log("setting up base");
     const x = Math.floor(Math.random() * size);
     let y;
     if (x === 0 || x === size - 1) {
@@ -65,36 +76,44 @@ class App extends Component {
       y = Math.round(Math.random());
       if (y === 1) y = size - 1;
     }
-    this.state.player.currLoc = {
-      x: x,
-      y: y,
-    };
     return [x, y];
   }
 
   initNewGame() {
+    console.log("init game");
     //create gameMap
-    this.createGrid(this.state.board.gameMap, this.state.board.mapSize);
-    //place player at base
-    console.log(this.state.player.currLoc);
+    this.createGrid(this.state.board.mapSize);
+    //add event listener
+    //window.addEventListener("keydown", this.move);
   }
 
-  // move: function (destination = [this.baseLoc.x, this.baseLoc.y]) {
-  //   let prevLoc = document.querySelector(".bot");
-  //   if (prevLoc) prevLoc.parentNode.removeChild(prevLoc);
-  //   let loc = boardEl.rows[destination[1]].cells[destination[0]];
-  //   loc.insertAdjacentHTML("beforeend", `<div class='bot'><div>`);
-  // },
+  move = (e) => {
+    console.log(this.state);
+    let currLoc = { ...this.state.player.currLoc };
+    console.log(e.key, currLoc);
+    if (e.key === "ArrowUp") {
+      console.log("move up");
+      if (currLoc.y > 0) currLoc.y -= 1;
+      else alert("cant leave the map");
+      this.setState({ currLoc });
+    }
+  };
 
-  render() {
+  componentDidMount() {
     if (this.state.board.gameMap.length === 0) {
       this.initNewGame();
     }
+  }
+
+  render() {
     return (
       <div className="App">
         <h1>Miner Bot</h1>
         <div className="container">
-          <Map mapInfo={this.state.board.gameMap} />
+          <Map
+            mapInfo={this.state.board.gameMap}
+            playerLoc={this.state.player.currLoc}
+          />
           <Cockpit player={this.state.player} />
         </div>
       </div>

@@ -1,0 +1,11 @@
+.player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  height: 40px;
+  width: 40px;
+  background-image: url("../../../assets/bot3.jpg");
+  background-size: cover;
+  background-position: center;
+}

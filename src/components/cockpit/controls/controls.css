@@ -1,18 +1,14 @@
 .controls {
   flex-grow: 1;
-  position: relative;
 }
 
 .btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  float: right;
   font-size: 1.25rem;
   padding: 1rem 1.75rem;
   background-color: black;
   color: rgb(81, 255, 0);
-  border: 3px solid rgb(81, 255, 0);
+  border: 1px solid rgb(81, 255, 0);
   border-radius: 5px;
 }
 
