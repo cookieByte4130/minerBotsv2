@@ -49,7 +49,8 @@ class App extends Component {
     currLoc.x = baseCoords[0];
     currLoc.y = baseCoords[1];
     console.log(currLoc);
-    this.setState({ currLoc });
+    this.setState({ player: { ...this.state.player, currLoc } });
+    console.log(this.state);
   }
 
   roll(dSides) {
@@ -84,7 +85,7 @@ class App extends Component {
     //create gameMap
     this.createGrid(this.state.board.mapSize);
     //add event listener
-    //window.addEventListener("keydown", this.move);
+    window.addEventListener("keydown", this.move);
   }
 
   move = (e) => {
@@ -95,7 +96,7 @@ class App extends Component {
       console.log("move up");
       if (currLoc.y > 0) currLoc.y -= 1;
       else alert("cant leave the map");
-      this.setState({ currLoc });
+      this.setState({ player: { ...this.state.player, currLoc } });
     }
   };
 
