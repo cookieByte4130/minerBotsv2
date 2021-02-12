@@ -89,15 +89,22 @@ class App extends Component {
   }
 
   move = (e) => {
-    console.log(this.state);
+    if (!RegExp("Arrow*").test(e.key)) return;
     let currLoc = { ...this.state.player.currLoc };
-    console.log(e.key, currLoc);
-    if (e.key === "ArrowUp") {
-      console.log("move up");
-      if (currLoc.y > 0) currLoc.y -= 1;
-      else alert("cant leave the map");
-      this.setState({ player: { ...this.state.player, currLoc } });
+    if (e.key === "ArrowUp" && currLoc.y > 0) {
+      currLoc.y -= 1;
     }
+    if (e.key === "ArrowDown" && currLoc.y < this.state.board.mapSize - 1) {
+      currLoc.y += 1;
+    }
+    if (e.key === "ArrowLeft" && currLoc.x > 0) {
+      currLoc.x -= 1;
+    }
+    if (e.key === "ArrowRight" && currLoc.x < this.state.board.mapSize - 1) {
+      currLoc.x += 1;
+    }
+
+    this.setState({ player: { ...this.state.player, currLoc } });
   };
 
   componentDidMount() {
