@@ -84,13 +84,15 @@ class App extends Component {
     console.log("init game");
     //create gameMap
     this.createGrid(this.state.board.mapSize);
-    //add event listener
+    //add bot mobility
     window.addEventListener("keydown", this.move);
   }
 
   move = (e) => {
     if (!RegExp("Arrow*").test(e.key)) return;
+
     let currLoc = { ...this.state.player.currLoc };
+    //Asimov's second law
     if (e.key === "ArrowUp" && currLoc.y > 0) {
       currLoc.y -= 1;
     }
@@ -103,8 +105,11 @@ class App extends Component {
     if (e.key === "ArrowRight" && currLoc.x < this.state.board.mapSize - 1) {
       currLoc.x += 1;
     }
-
-    this.setState({ player: { ...this.state.player, currLoc } });
+    //Asimov's Third Law
+    let terrainType = this.state.board.gameMap[currLoc.y][currLoc.x];
+    if (terrainType === "land" || terrainType === "base") {
+      this.setState({ player: { ...this.state.player, currLoc } });
+    }
   };
 
   componentDidMount() {
