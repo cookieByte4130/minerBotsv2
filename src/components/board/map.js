@@ -5,7 +5,9 @@ import Player from "./player/player";
 class Board extends Component {
   generateDOM = () => {
     return this.props.mapInfo.map((rows, i) => {
-      var row = rows.map((cell, j) => <div key={j} className={cell} />);
+      let row = rows.map((cell, j) => {
+        return <div key={j} className={cell.terrain} />;
+      });
       return (
         <div key={i} className="row">
           {row}

@@ -8,7 +8,7 @@ class Controls extends Component {
         <button
           className="btn"
           onClick={() => {
-            alert("digging");
+            this.props.digHandler();
           }}
         >
           Dig

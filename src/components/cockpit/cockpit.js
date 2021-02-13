@@ -8,7 +8,7 @@ class Cockpit extends Component {
     return (
       <div className="cockpit">
         <Stats player={this.props.player} />
-        <Controls />
+        <Controls digHandler={this.props.digHandler} />
       </div>
     );
   }

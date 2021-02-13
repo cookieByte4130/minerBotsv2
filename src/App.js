@@ -7,6 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      level: 1,
       board: {
         mapSize: 8,
         gameMap: [],
@@ -18,6 +19,7 @@ class App extends Component {
         carry: {
           level: 1,
           currLoad: 0,
+          load: {},
           maxLoad: 100,
         },
         currLoc: {
@@ -34,24 +36,39 @@ class App extends Component {
     for (let i = 0; i < size; i++) {
       tempGrid.gameMap.push([]);
       for (let j = 0; j < size; j++) {
-        tempGrid.gameMap[i][j] = this.setCellType(25, 20);
+        tempGrid.gameMap[i][j] = this.generateTile(this.setCellType(25, 20));
       }
     }
     //set up base
     const baseCoords = this.setBaseLoc(size);
     console.log("base site selected");
-    tempGrid.gameMap[baseCoords[1]][baseCoords[0]] = "base";
+    tempGrid.gameMap[baseCoords[1]][baseCoords[0]] = this.generateTile("base");
     this.setState({ tempGrid });
     console.log("base constructed");
+    console.log(tempGrid);
 
     //place player
     const currLoc = { ...this.state.player.currLoc };
     currLoc.x = baseCoords[0];
     currLoc.y = baseCoords[1];
-    console.log(currLoc);
     this.setState({ player: { ...this.state.player, currLoc } });
-    console.log(this.state);
   }
+
+  generateTile = (type) => {
+    let tile = {
+      terrain: type,
+    };
+
+    tile.canMoveTo =
+      tile.terrain === "land" || tile.terrain === "base" ? true : false;
+
+    if (tile.terrain === "land") {
+      tile.resource = "fe";
+      tile.quantity = this.roll(20);
+      tile.threshold = this.state.level;
+    }
+    return tile;
+  };
 
   roll(dSides) {
     return Math.floor(Math.random() * dSides) + 1;
@@ -106,10 +123,56 @@ class App extends Component {
       currLoc.x += 1;
     }
     //Asimov's Third Law
-    let terrainType = this.state.board.gameMap[currLoc.y][currLoc.x];
-    if (terrainType === "land" || terrainType === "base") {
+    const validMove = this.state.board.gameMap[currLoc.y][currLoc.x].canMoveTo;
+    if (validMove) {
       this.setState({ player: { ...this.state.player, currLoc } });
     }
+  };
+
+  dig = (e) => {
+    console.log("digging");
+    const player = { ...this.state.player };
+    const board = { ...this.state.board };
+    const currTile = board.gameMap[player.currLoc.y][player.currLoc.x];
+    if (currTile.terrain === "base") {
+      alert(`Security Bot: "You can't dig on base!"`);
+      return;
+    }
+    if (player.digTools >= currTile.threshold) {
+      console.log("successful dig");
+      const resource = currTile.resource;
+      const qty = currTile.quantity;
+      console.log(player, currTile, qty);
+      if (player.carry.maxLoad === player.carry.currLoad) {
+        alert("You are already full. Return to base to unload");
+        return;
+      } else {
+        const unminedQty =
+          player.carry.currLoad + qty > player.carry.maxLoad
+            ? player.carry.currLoad + qty - player.carry.maxLoad
+            : 0;
+        const minedQty = qty - unminedQty;
+
+        if (!player.carry.load[resource]) player.carry.load[resource] = 0;
+        player.carry.load[resource] += minedQty;
+        player.carry.currLoad += minedQty;
+
+        //update player state
+        this.setState({ player: { ...this.state.player } });
+        alert(
+          `You mined ${minedQty} ${
+            resource[0].toUpperCase() + resource.slice(1)
+          }`
+        );
+
+        //deplete the land
+        currTile.quantity = unminedQty;
+        this.setState({ board: { ...this.state.board } });
+      }
+    } else {
+      console.log("you are not equipped for this dig");
+    }
+    //TODO: notify user w/o alerts
   };
 
   componentDidMount() {
@@ -127,7 +190,7 @@ class App extends Component {
             mapInfo={this.state.board.gameMap}
             playerLoc={this.state.player.currLoc}
           />
-          <Cockpit player={this.state.player} />
+          <Cockpit player={this.state.player} digHandler={this.dig} />
         </div>
       </div>
     );
