@@ -63,6 +63,7 @@ class App extends Component {
       tile.terrain === "land" || tile.terrain === "base" ? true : false;
 
     if (tile.terrain === "land") {
+      //will eventually add more resources
       tile.resource = "fe";
       tile.quantity = this.roll(20);
       tile.threshold = this.state.level;
@@ -122,10 +123,22 @@ class App extends Component {
     if (e.key === "ArrowRight" && currLoc.x < this.state.board.mapSize - 1) {
       currLoc.x += 1;
     }
+
     //Asimov's Third Law
     const validMove = this.state.board.gameMap[currLoc.y][currLoc.x].canMoveTo;
     if (validMove) {
       this.setState({ player: { ...this.state.player, currLoc } });
+    }
+
+    //All your base are belong to us
+    if (this.state.board.gameMap[currLoc.y][currLoc.x].terrain === "base") {
+      console.log("unloading");
+      const player = { ...this.state.player };
+      console.log(player);
+      //WIP!!
+      //calc currency earned
+      //clear currLoad and load values
+      //notify user
     }
   };
 
@@ -153,6 +166,7 @@ class App extends Component {
             : 0;
         const minedQty = qty - unminedQty;
 
+        //Later we will have more resources so load will have to init type of resource being stored.
         if (!player.carry.load[resource]) player.carry.load[resource] = 0;
         player.carry.load[resource] += minedQty;
         player.carry.currLoad += minedQty;
@@ -165,14 +179,18 @@ class App extends Component {
           }`
         );
 
-        //deplete the land
+        //update board
         currTile.quantity = unminedQty;
         this.setState({ board: { ...this.state.board } });
       }
     } else {
-      console.log("you are not equipped for this dig");
+      console.log("You are not equipped for this dig");
     }
     //TODO: notify user w/o alerts
+  };
+
+  unload = () => {
+    console.log("unloading");
   };
 
   componentDidMount() {
