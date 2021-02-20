@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
+import Modal from "./components/UI/modal/modal";
+import Upgrades from "./components/board/upgrades/upgrades.js";
 import Map from "./components/board/map";
 import Cockpit from "./components/cockpit/cockpit";
+import Menu from "./components/menu/menu";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      menuShowing: true,
       level: 1,
       board: {
         mapSize: 8,
@@ -132,15 +136,28 @@ class App extends Component {
 
     //All your base are belong to us
     if (this.state.board.gameMap[currLoc.y][currLoc.x].terrain === "base") {
-      console.log("unloading");
-      const player = { ...this.state.player };
-      console.log(player);
-      //WIP!!
-      //calc currency earned
-      //clear currLoad and load values
-      //notify user
+      this.returnToBase();
     }
   };
+
+  // upgrade: function (equipment, lvl) {
+  //   let n;
+  //   switch (equipment) {
+  //     case "sensor":
+  //       n = 30;
+  //       break;
+  //     case "digTools":
+  //     case "carry":
+  //       n = 5;
+  //       break;
+  //   }
+  //   const cost = n * lvl ** 2;
+  //   console.log(cost);
+  //   //deduct cost from currency
+  //   //update sensor level in bot obj
+  //   //update display
+  //   // Carry Capacity cost 3x(Lvl^2) in ©, so L2 costs 12©, L3 costs 27©, etc. Each Carry level increases carry capacity by 100kg.
+  // },
 
   dig = (e) => {
     console.log("digging");
@@ -189,9 +206,41 @@ class App extends Component {
     //TODO: notify user w/o alerts
   };
 
+  returnToBase = () => {
+    console.log("returned to base");
+    this.unload();
+  };
+
   unload = () => {
     console.log("unloading");
+    const player = { ...this.state.player };
+    //calc currency earned
+    const materialValues = {
+      fe: 10,
+    };
+
+    let loadValue = 0;
+    for (const [material, amt] of Object.entries(player.carry.load)) {
+      loadValue += amt / materialValues[material];
+    }
+    player.currency += loadValue;
+
+    player.carry.currLoad = 0;
+    player.carry.load = {};
+    //clear currLoad and load values
+    this.setState({ player });
+    //notify user
+    alert(`Mr. Orewell: "Great job! You earned ${loadValue}(c)"`);
   };
+
+  newGameHandler = () => {
+    console.log("New Game");
+    this.setState({ menuShowing: false });
+  };
+
+  loadGameHandler() {
+    console.log("Load Game");
+  }
 
   componentDidMount() {
     if (this.state.board.gameMap.length === 0) {
@@ -202,14 +251,19 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {/* <Modal /> */}
         <h1>Miner Bot</h1>
-        <div className="container">
-          <Map
-            mapInfo={this.state.board.gameMap}
-            playerLoc={this.state.player.currLoc}
-          />
-          <Cockpit player={this.state.player} digHandler={this.dig} />
-        </div>
+        {this.state.menuShowing ? (
+          <Menu newGame={this.newGameHandler} loadGame={this.loadGameHandler} />
+        ) : (
+          <div className="container">
+            <Map
+              mapInfo={this.state.board.gameMap}
+              playerLoc={this.state.player.currLoc}
+            />
+            <Cockpit player={this.state.player} digHandler={this.dig} />
+          </div>
+        )}
       </div>
     );
   }

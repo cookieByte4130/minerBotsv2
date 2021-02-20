@@ -18,9 +18,12 @@ class Board extends Component {
 
   render() {
     return (
-      <div className="map">
-        <Player playerLoc={this.props.playerLoc} />
-        {this.generateDOM()}
+      <div>
+        <button>Menu</button>
+        <div className="map">
+          <Player playerLoc={this.props.playerLoc} />
+          {this.generateDOM()}
+        </div>
       </div>
     );
   }
