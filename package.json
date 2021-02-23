@@ -1,6 +1,6 @@
 {
+  "homepage": "https://cookiebyte4130.github.io/minerBotsv2",
   "name": "miner-bots",
-  "homepage": "https://cookiebyte4130.github.io/minerBotsv2/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
