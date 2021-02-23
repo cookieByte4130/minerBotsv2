@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/minerBotsv2/static/css/main.d2eddf88.chunk.css",
+    "main.js": "/minerBotsv2/static/js/main.337ae096.chunk.js",
+    "main.js.map": "/minerBotsv2/static/js/main.337ae096.chunk.js.map",
+    "runtime-main.js": "/minerBotsv2/static/js/runtime-main.11db1d08.js",
+    "runtime-main.js.map": "/minerBotsv2/static/js/runtime-main.11db1d08.js.map",
+    "static/js/2.bf5e1c7e.chunk.js": "/minerBotsv2/static/js/2.bf5e1c7e.chunk.js",
+    "static/js/2.bf5e1c7e.chunk.js.map": "/minerBotsv2/static/js/2.bf5e1c7e.chunk.js.map",
+    "static/js/3.84ba7a77.chunk.js": "/minerBotsv2/static/js/3.84ba7a77.chunk.js",
+    "static/js/3.84ba7a77.chunk.js.map": "/minerBotsv2/static/js/3.84ba7a77.chunk.js.map",
+    "index.html": "/minerBotsv2/index.html",
+    "static/css/main.d2eddf88.chunk.css.map": "/minerBotsv2/static/css/main.d2eddf88.chunk.css.map",
+    "static/js/2.bf5e1c7e.chunk.js.LICENSE.txt": "/minerBotsv2/static/js/2.bf5e1c7e.chunk.js.LICENSE.txt",
+    "static/media/map.css": "/minerBotsv2/static/media/water.7e5af0a1.jpg",
+    "static/media/player.css": "/minerBotsv2/static/media/bot3.00823831.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.11db1d08.js",
+    "static/js/2.bf5e1c7e.chunk.js",
+    "static/css/main.d2eddf88.chunk.css",
+    "static/js/main.337ae096.chunk.js"
+  ]
+}
