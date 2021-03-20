@@ -21,6 +21,12 @@ Move Bot onto Base square, and buttons come up in bottom box area to drop off ir
 
 Buy upgrades to improve digging abilities.
 
+## Deploying
+
+npm install
+git add / commit / push changes
+npm run deploy
+
 ## System Requirements
 
 173 MB storage
